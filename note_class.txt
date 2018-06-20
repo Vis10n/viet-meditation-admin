@@ -1,0 +1,130 @@
+// Danh sách các thuộc tính của đối tượng Class - lớp học 
+    "name" - Tên lớp (text)
+    "type" - Kiểu lớp học: Online - offline
+    "level" - Cấp độ: Sơ cấp, trung cấp, cao cấp, đào tạo trợ giảng
+    "status" - Trạng thái: chưa khai giảng, đang học, bế giảng 
+    "list_member" // Danh sách các học viên trong lớp 
+    "list_master" // Danh sách user phụ trách chuyên môn
+    "list_manager"// Danh sách user quản lý lớp
+    "time_start"  // Dạng timestamp
+    "time_end"    // Dạng timestamp 
+    "location"    // Địa điểm (text) 
+    "pic"         // link ảnh đại diện cho Class	
+	"more_infor"  // các thông tin thêm về lớp học (text) 
+    "formal_name" // Danh sách tên chính thức của các học viên trong lớp 
+
+	
+// Dear Chiến, 
+1. Giao diện quản lý danh sách các lớp chung, giao diện này sẽ chủ yếu là hiển thị thông tin
+Bên trên giao diện này có các button + Thêm lớp, Chỉnh sửa lớp, Lọc (theo các trường - tính năng lọc này a muốn phát triển nhưng có thể chưa cần ngay,
+e có thể để tâm ngâm cứu dần)
+2. Giao diện chỉnh sửa thông tin của từng lớp riêng khi bấm vào button chỉnh sửa từng lớp
+3. Button thêm lớp thì khi bấm vào sẽ hiện ra 1 form để nhập các thông tin cho 1 đối tượng Class mới
+
+
+Chi tiết giao diện 1 nhé: 
+https://www.vietmeditation.com/class
+Đầu file html e sẽ có 1 array trong JS như sau:
+arrClass = [
+				[Tên lớp 1, Kiểu lớp 1, Level lớp 1, .... ], // phần tử mảng chứa thông tin của lớp học 
+				[Tên lớp 2, Kiểu lớp 2, Level lớp 2, .... ],
+				[Tên lớp 3, Kiểu lớp 3, Level lớp 3, .... ]
+			];
+			
+	Mỗi mảng chứa thông tin của lớp học có cấu trúc cụ thể như sau:
+	[0] -> Id class (id_lớp)
+	[1] -> Tên lớp
+	[2] -> Kiểu lớp
+	[3] -> Level lớp 
+	[4] -> Trạng thái
+	[5] -> Danh sách các thành viên tham gia giảng dạy
+			Arr_MasterS = [Arr Master0, Arr Master1, ... ]
+			Arr Master0 :   [0] -> Id_user
+							[1] -> Tên user 
+	[6] -> Danh sách các quản lý lớp (tương tự danh sách các thành viên master ở trên)
+	[7] -> Số lượng học viên
+	[8] -> Thời gian bắt đầu  - dạng dd/mm/yyyy
+	[9] -> Thời gian kết thúc - dạng dd/mm/yyyy
+	[10] -> Địa điểm (text) 
+	[11]-> Thông tin bổ sung
+	
+Từ arrClass em vẽ thành bảng nhé
+--------------------------------
+================================
+
+Giao diện thêm 1 Class sẽ giống như trong link này: https://www.vietmeditation.com/insert_class
+A note chi tiết phần thêm thành viên 1 vào danh sách học viên, giảng viên hay quản lý của lớp 1 chút
++ Khi thêm người dùng sẽ dựa vào ID user 
+Trong mỗi danh sách có 2 khoang: ví dụ danh sách giảng viên
+- Người dùng nhập id_user = 1, bấm check thì sẽ hiển thị ra thông tin id_user 1 ra khoang A (e thử trong link trên a có viết r)
+- Khi bấm thêm thì thông tin đó được đưa sang khoang B (khoang chính thức)
+
++ Phần địa điểm thì chỉ cho chọn trong 1 danh sách: danh sách này lấy qua ajax
+Chi tiết: mảng ajax lên Server
+	đường dẫn server: "/api"
+	Chi tiết mảng gửi lên:
+	{
+		opt_cod: "list_location_class"		
+	}
+	
+	Chi tiết mảng nhận về: 
+	[
+		[Arr1], 
+		[Arr2], 
+		[Arr3], 
+		....
+	]
+	
+	Mỗi Arr sẽ có dạng [0] -> id location; [1] -> Location dạng text 
+	// id_location này sẽ dùng để đăng ký địa điểm của lớp mới khi gửi form lên nhé 
+	
+--------------------------------------------
+============================================
+Giao diện chỉnh sửa 1 class: 
+->  E ajax lên server 
+Đường dẫn: /api
+Thông tin gửi lên:
+{
+	opt_cod: infor_class,
+	id_class: id_class 
+}
+Mảng nhận về: 
+{
+	[0] -> Id class (id_lớp)
+	[1] -> Tên lớp
+	[2] -> Kiểu lớp
+	[3] -> Level lớp 
+	[4] -> Trạng thái
+	[5] -> Danh sách các thành viên tham gia giảng dạy
+			Arr_MasterS = [Arr Master0, Arr Master1, ... ]
+			Arr Master0 :   [0] -> Id_user
+							[1] -> Tên user 
+	[6] -> Danh sách các quản lý lớp (tương tự danh sách các thành viên master ở trên)
+	[7] -> Số lượng học viên
+	[8] -> Thời gian bắt đầu  - dạng dd/mm/yyyy
+	[9] -> Thời gian kết thúc - dạng dd/mm/yyyy
+	[10] -> Địa điểm (text) 
+	[11]-> Thông tin bổ sung
+	// 
+	[12] -> Danh sách formal name học viên = [arrStudent0, arrStudent1 ... ]
+	[13] -> Link ảnh trên Server - Cho người dùng upload ảnh lên để thay ảnh của Class 
+}
+// Chi tiết phần formal name học viên
+arrStudent0-> Array: [0] -> id_student 
+					 [1] -> Họ tên 
+					 [2] -> Ngày sinh 
+					 [3] -> Địa chỉ 
+->> Danh sách formal name học viên e kẻ thành 1 bảng xong có button edit từng dòng như e vừa nói với anh nhé
+
+// Keep going - Don't Settle - Stay Hungry - Stay Foolish
+
+
+
+	
+		
+				
+	
+
+
+				
+                
