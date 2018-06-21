@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
 import './App.css';
 import ClassList from './components/ClassList';
+import ClassForm from './components/ClassForm';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            clazz: []
+            clazz: [],
+            isDisplayForm: false
         }
     }
     
+    // tạo tmpData để test
+    randomizeChar = () => {
+        return (
+            Math.floor((1+Math.random()) * 0x10000).toString(16).substring(1)
+        );
+    }
+    generateID = () => {
+        return (
+            this.randomizeChar() + '-' + this.randomizeChar() + '-' + this.randomizeChar() + '-' + this.randomizeChar()
+        );
+    }
     onGenerateData = () => {
         var clazz = [
             {
+                id: this.generateID(),
                 name: 'aaa',
                 type: true,
                 level: 'sơ cấp',
@@ -24,6 +38,7 @@ class App extends Component {
                 location: 'HN'
             },
             {
+                id: this.generateID(),
                 name: 'aab',
                 type: true,
                 level: 'trung cấp',
@@ -35,6 +50,7 @@ class App extends Component {
                 location: 'HN'
             },
             {
+                id: this.generateID(),
                 name: 'abc',
                 type: false,
                 level: 'cao cấp',
@@ -46,6 +62,7 @@ class App extends Component {
                 location: 'HCM'
             },
             {
+                id: this.generateID(),
                 name: 'abb',
                 type: false,
                 level: 'sơ cấp',
@@ -57,6 +74,7 @@ class App extends Component {
                 location: 'HCM'
             },
             {
+                id: this.generateID(),
                 name: 'acc',
                 type: true,
                 level: 'đào tạo trợ giảng',
@@ -74,6 +92,42 @@ class App extends Component {
         localStorage.setItem('clazz', JSON.stringify(clazz));
     }
 
+
+    // Hiển thị/Ẩn form thêm lớp mới
+    onToggleForm = () => {
+        this.setState({
+            isDisplayForm: !this.state.isDisplayForm
+        });
+    }
+
+    onSubmit = (data) => {
+        console.log(data);
+        var {clazz} = this.state;
+        data.id = this.generateID();
+        clazz.push(data);
+        // var clazz = {
+        //     name: data.name,
+        //     type: data.type,
+        //     level: data.level,
+        //     status: data.status,
+        //     list_master: data.list_master,
+        //     list_manager: data.list_manager,
+        //     time_start: data.time_start,
+        //     time_end: data.time_end,
+        //     location: data.location,
+        //     pic: data.pic,
+        //     more_infor: data.more_infor
+        // }
+        this.setState({
+            clazz: clazz
+        });
+        localStorage.setItem('clazz', JSON.stringify(clazz));
+    }
+
+    onCloseForm = () => {
+        this.onToggleForm();
+    }
+
     componentWillMount() {
         if (localStorage && localStorage.getItem('clazz')) {
             var clazz = JSON.parse(localStorage.getItem('clazz'));
@@ -84,7 +138,9 @@ class App extends Component {
     }
 
     render() {
-        var {clazz} = this.state;
+        var {clazz, isDisplayForm} = this.state;
+        var elmClassForm = isDisplayForm 
+            ? <ClassForm onSubmit={this.onSubmit} onCloseForm={this.onCloseForm} /> : '';
 
         return (
             <div className="App">
@@ -109,21 +165,35 @@ class App extends Component {
                 </nav>
 
                 {/* sidebar */}
-                <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-                    <div class="profile-sidebar">
-                        <div class="profile-userpic">
-                            <img src="http://placehold.it/50/30a5ff/fff" class="img-responsive" alt=""/>
+                <div id="sidebar-collapse" className="col-sm-3 col-lg-2 sidebar">
+                    <div className="profile-sidebar">
+                        <div className="profile-userpic">
+                            <img src="http://placehold.it/50/30a5ff/fff" className="img-responsive" alt=""/>
                         </div>
-                        <div class="profile-usertitle">
-                            <div class="profile-usertitle-name">Chien "V1s10n" Nguyen</div>
-                            <div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
+                        <div className="profile-usertitle">
+                            <div className="profile-usertitle-name">Administrator</div>
+                            <div className="profile-usertitle-status"><span className="indicator label-success"></span>Online</div>
                         </div>
-                        <div class="clear"></div>
+                        <div className="clear"></div>
                     </div>
-                    <div class="divider"></div>
-                    <ul class="nav menu">
-                        <li class="active"><a href="index.html"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-                        <li><a href=""><em class="fa fa-power-off">&nbsp;</em>Đăng xuất</a></li>
+                    <div className="divider"></div>
+                    <ul className="nav menu">
+                        <li className="active">
+                            <a href="">
+                                <em className="fa fa-dashboard">
+                                    &nbsp;
+                                </em> 
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <em className="fa fa-power-off">
+                                    &nbsp;
+                                </em>
+                                Đăng xuất
+                            </a>
+                        </li>
                     </ul>
                 {/* /.sidebar */}
                 </div>
@@ -139,20 +209,38 @@ class App extends Component {
                         </ol>
                     </div>
 
-                    {/* temporary button */}
-                    <br/>
+                    {/* Thêm công việc */}
                     <button 
                         type="button" 
-                        className="btn btn-danger ml-5"
+                        className="btn btn-primary m-el-5"
+                        onClick={this.onToggleForm}>
+                        <span className="fa fa-plus mr-5"></span>
+                        &nbsp;
+                        Lớp mới
+                    </button>
+
+                    {/* a button to generate temporary data */}
+                    <button 
+                        type="button" 
+                        className="btn btn-danger"
                         onClick={this.onGenerateData}>
                         <span className="fa fa-plus mr-5"></span>
                         &nbsp;Generate Data
                     </button>
                     <br/>
 
-                    {/* data tables */}
-                    <ClassList clazz={clazz} />
-                
+                    {/* class form */}
+                    {elmClassForm}
+
+
+                    {/* Datatable Controler (Search/sort) */}
+
+
+                    {/* data tables */}                    
+                    <div className="col-xs-13 col-sm-13 col-md-13 col-lg-13">
+                        <ClassList clazz={clazz} />
+                    </div>
+                                   
                 {/* /.main */}
                 </div>
 

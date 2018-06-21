@@ -8,7 +8,7 @@ class ClassList extends Component {
         var {clazz} = this.props; // var tasks = this.props.tasks
         var elmClazz = clazz.map((clazz, index) => {
             return <ClassItem 
-                        key={index} 
+                        key={clazz.id} 
                         index={index} 
                         clazz={clazz} 
                     />

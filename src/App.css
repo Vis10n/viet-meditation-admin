@@ -13,14 +13,32 @@
   font-size: large;
 }
 
-.mt-30p {
-  margin-top: 15%
+.mt-5 {
+  margin-top: 5px
 }
-
 .mt-60 {
   margin-top: 60px
 }
 
+.mt-30p {
+  margin-top: 15%
+}
+
+.ml-50p {
+  margin-left: 50%
+}
+
+.m-5 {
+  margin: 5px
+}
+
+.m-el-5 {
+  margin: 5px 5px 5px 0px
+}
+
+.mb-5 {
+  margin-bottom: 5px
+}
 .h-46 {
   height: 46px
 }
