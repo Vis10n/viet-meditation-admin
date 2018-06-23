@@ -12,7 +12,18 @@ class App extends Component {
         this.state = {
             clazz: [],
             isDisplayForm: false,
-            clazzEditing: null
+            clazzEditing: null,
+            filter: {
+                name: '',
+                type: -1, //all: -1, offline: 0, online: 1
+                level: -1, //all: -1, sơ cấp: 0, trung cấp: 1, cao cấp: 2, đào tạo trợ giảng: 3
+                status: -1, //all: -1, chưa khai giảng: 0, đang học: 1, bế giảng: 2
+                listMaster: '',
+                listManager: '',
+                timeStart: '',
+                timeEnd: '',
+                location: -1, //all: -1, Voi Phục: 0, Đội Cấn: 1, HQV: 2
+            }
         }
     }
     
@@ -90,6 +101,31 @@ class App extends Component {
         this.onShowForm();
     }
 
+    //TODO Lọc (filter)
+    onFilter = (filterName, filterType, filterLevel, filterStatus, filterListMaster, filterListManager, filterTimeStart, filterTimeEnd, filterLocation) => {
+        //console.log(filterName, filterType, filterLevel, filterStatus, filterListMaster, filterListManager, filterTimeStart, filterTimeEnd, filterLocation);
+        //Convert String to int
+        filterType = parseInt(filterType, 10);
+        filterLevel = parseInt(filterLevel, 10);
+        filterStatus = parseInt(filterStatus, 10);
+        filterLocation = parseInt(filterLocation, 10);
+        
+        //gán giá trị vào state filter để render kết quả
+        this.setState({
+            filter: {
+                name: filterName.toLowerCase(),
+                type: filterType, 
+                level: filterLevel, 
+                status: filterStatus, 
+                listMaster: filterListMaster.toLowerCase(),
+                listManager: filterListManager.toLowerCase(),
+                timeStart: filterTimeStart.toLowerCase(),
+                timeEnd: filterTimeEnd.toLowerCase(),
+                location: filterLocation
+            }
+        });
+    }
+
 
     //Submit data và lưu CSDL
     onSubmit = (data) => {
@@ -124,6 +160,7 @@ class App extends Component {
         });
     }
 
+
     //CWM
     componentWillMount() {
         if (localStorage && localStorage.getItem('clazz')) {
@@ -144,7 +181,91 @@ class App extends Component {
 
 
     render() {
-        var {clazz, isDisplayForm, clazzEditing} = this.state; //remember: không được quên khai báo local var
+        var {clazz, isDisplayForm, clazzEditing, filter} = this.state; //remember: không được quên khai báo local var
+        //console.log(filter);
+        
+        //TODO: Lọc dữ liệu
+        if (filter) {
+            //Lọc theo tên lớp học
+            if(filter.name) {
+                clazz = clazz.filter((clazz) => {
+                    return clazz.name.toLowerCase().indexOf(filter.name) !== -1;
+                });
+            }
+
+            //Lọc theo loại lớp
+            clazz = clazz.filter((elmClazz) => {
+                if (filter.type === -1) {
+                    return elmClazz;
+                } else {
+                    return elmClazz.type === (filter.type === 1 ? true : false);
+                }
+            });
+
+            //Lọc theo cấp độ
+            clazz = clazz.filter((elmClazz) => {
+                if (filter.level === -1) {
+                    return elmClazz;
+                } else {
+                    if (filter.level === 0) return elmClazz.level === "sơ cấp"
+                    else if (filter.level === 1) return elmClazz.level === "trung cấp"
+                    else if (filter.level === 2) return elmClazz.level === "cao cấp"
+                    else return elmClazz.level === "đào tạo trợ giảng";
+                }
+            });
+
+            //Lọc theo trạng thái
+            clazz = clazz.filter((elmClazz) => {
+                if (filter.status === -1) {
+                    return elmClazz;
+                } else {
+                    if (filter.status === 0) return elmClazz.status === "chưa khai giảng"
+                    else if (filter.status === 1) return elmClazz.status === "đang học"
+                    else return elmClazz.status === "bế giảng";
+                }
+            });
+            
+            //Lọc theo giảng viên
+            if(filter.listMaster) {
+                clazz = clazz.filter((clazz) => {
+                    return clazz.list_master.toLowerCase().indexOf(filter.listMaster) !== -1;
+                });
+            }
+
+            //Lọc theo quản lý
+            if(filter.listManager) {
+                clazz = clazz.filter((clazz) => {
+                    return clazz.list_manager.toLowerCase().indexOf(filter.listManager) !== -1;
+                });
+            }
+
+            //Lọc theo thời điểm bắt đầu
+            if(filter.timeStart) {
+                clazz = clazz.filter((clazz) => {
+                    return clazz.time_start.toLowerCase().indexOf(filter.timeStart) !== -1;
+                });
+            }
+
+            //Lọc theo thời điểm kết thúc
+            if(filter.timeEnd) {
+                clazz = clazz.filter((clazz) => {
+                    return clazz.time_end.toLowerCase().indexOf(filter.timeEnd) !== -1;
+                });
+            }
+
+            //Lọc theo địa điểm
+            clazz = clazz.filter((elmClazz) => {
+                if (filter.location === -1) {
+                    return elmClazz;
+                } else {
+                    if (filter.location === 0) return elmClazz.location === "Đền Voi Phục, Thụy Khuê, Tây Hồ, Hà Nội"
+                    else if (filter.location === 1) return elmClazz.location === "Tòa VP6 245 Đội Cấn, Đội Cấn, Ba Đình, Hà Nội"
+                    else return elmClazz.location === "Số 1 Hoàng Quốc Việt, Nghĩa Đô, Cầu Giấy, Hà Nội";
+                }
+            });
+        }
+
+        //TODO Show thông tin classForm
         var elmClassForm = isDisplayForm 
             ? <ClassForm 
                 onSubmit={this.onSubmit} 
@@ -243,7 +364,8 @@ class App extends Component {
                         <ClassList 
                             clazz={clazz}
                             onDelete={this.onDelete}
-                            onEdit={this.onEdit} />
+                            onEdit={this.onEdit}
+                            onFilter={this.onFilter} />
                     </div>
                                    
                 {/* /.main */}
