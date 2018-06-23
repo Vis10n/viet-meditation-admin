@@ -43,15 +43,19 @@ class App extends Component {
     // Hiển thị/Ẩn form thêm lớp mới
     onToggleForm = () => {
         //Ẩn form khi đang hiện & hiện form khi đang ẩn
-        this.setState({
-            isDisplayForm: !this.state.isDisplayForm
-        });
+        // this.setState({
+        //     isDisplayForm: !this.state.isDisplayForm
+        // });
 
         //Nếu form có thông tin: clear sạch thông tin rồi hiện
-        if (this.state.clazzEditing !== null) {
+        if (this.state.isDisplayForm === true && this.state.clazzEditing !== null) {
             this.setState({
                 clazzEditing: null
             });
+        } else if (this.state.isDisplayForm === false) {
+            this.onShowForm();
+        } else if (this.state.isDisplayForm === true && this.state.clazzEditing === null) {
+            this.onCloseForm();
         }
     }
 
@@ -91,8 +95,15 @@ class App extends Component {
     onSubmit = (data) => {
         console.log(data);
         var {clazz} = this.state;
-        data.id = this.generateID();
-        clazz.push(data);
+
+        //Kiểm tra trạng thái (Thêm hay sửa?)
+        if (data.id === '') {                   //Thêm bản ghi mới
+            data.id = this.generateID();
+            clazz.push(data);      
+        } else {                                //Cập nhật bản ghi sẵn có
+            var index = this.findIndex(data.id);
+            clazz[index] = data;
+        }
         this.setState({
             clazz: clazz
         });
@@ -214,8 +225,7 @@ class App extends Component {
                         className="btn btn-primary m-el-5"
                         onClick={this.onToggleForm}>
                         <span className="fa fa-plus mr-5"></span>
-                        &nbsp;
-                        Lớp mới
+                        Thêm lớp
                     </button>
 
                     

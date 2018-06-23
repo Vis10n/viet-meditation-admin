@@ -13,6 +13,10 @@
   font-size: large;
 }
 
+.mr-5 {
+  margin-right: 5px
+}
+
 .mt-5 {
   margin-top: 5px
 }
@@ -32,6 +36,10 @@
   margin: 5px
 }
 
+.m-2 {
+  margin: 2px
+}
+
 .m-el-5 {
   margin: 5px 5px 5px 0px
 }
@@ -41,4 +49,8 @@
 }
 .h-46 {
   height: 46px
+}
+
+.text-center {
+  text-align: center
 }

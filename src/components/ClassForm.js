@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import ResetInfo from './ResetInfo';
+import ShowDetails from './ShowDetails';
 
 class ClassForm extends Component {
 
@@ -15,7 +17,7 @@ class ClassForm extends Component {
             list_manager: '',
             time_start: '',
             time_end: '',
-            location: '',
+            location: 'Đền Voi Phục, Thụy Khuê, Tây Hồ, Hà Nội',
             pic: '',
             more_infor: ''
         }
@@ -39,6 +41,44 @@ class ClassForm extends Component {
                 location: this.props.clazz.location,
                 pic: this.props.clazz.pic,
                 more_infor: this.props.clazz.more_infor
+            });
+        }
+    }
+    
+    //Update thông tin form 
+    componentWillReceiveProps(nextProps) {
+        //trường họp sửa
+        if(nextProps && nextProps.clazz){
+            this.setState({
+                id: nextProps.clazz.id,
+                name: nextProps.clazz.name,
+                type: nextProps.clazz.type,
+                level: nextProps.clazz.level,
+                status: nextProps.clazz.status,
+                list_master: nextProps.clazz.list_master,
+                list_manager: nextProps.clazz.list_manager,
+                time_start: nextProps.clazz.time_start,
+                time_end: nextProps.clazz.time_end,
+                location: nextProps.clazz.location,
+                pic: nextProps.clazz.pic,
+                more_infor: nextProps.clazz.more_infor
+            });   
+        //trường hợp sửa -> thêm
+        } else if (nextProps && nextProps.clazz === null) {
+            console.log()
+            this.setState({
+                id: '',
+                name: '',
+                type: true,
+                level: 'sơ cấp',
+                status: 'chưa khai giảng',
+                list_master: '',
+                list_manager: '',
+                time_start: '',
+                time_end: '',
+                location: 'Đền Voi Phục, Thụy Khuê, Tây Hồ, Hà Nội',
+                pic: '',
+                more_infor: ''
             });
         }
     }
@@ -87,7 +127,7 @@ class ClassForm extends Component {
             list_manager: '',
             time_start: '',
             time_end: '',
-            location: '',
+            location: 'Đền Voi Phục, Thụy Khuê, Tây Hồ, Hà Nội',
             pic: '',
             more_infor: ''
         })
@@ -100,7 +140,7 @@ class ClassForm extends Component {
             <div className="panel panel-primary col-xs-13 col-sm-13 col-md-13 col-lg-13">
                 <div className="panel-heading">
                     <h3 className="panel-title">
-                        Thêm lớp mới
+                        {this.state.id !== '' ? 'Chỉnh sửa & Cập nhật lớp' : 'Thêm lớp học mới'}
                         &nbsp;
                     </h3>                                     
                 </div>
@@ -181,19 +221,25 @@ class ClassForm extends Component {
                                     <option value="bế giảng">Bế giảng</option>
                                 </select>
                             </div>
+                            
+                            {/* Thêm ảnh đại diện lớp (file input) */}
+                            <div className="form-group">
+                                <label>Thêm ảnh</label>
+                                <input 
+                                    type="file"
+                                    name="pic"
+                                    />
+                                <p className="help-block">Thêm ảnh đại diện cho lớp học (tùy chọn)</p>
+                            </div>
 
-                            {/* Thời gian bắt đầu */}
-                                
-
-                            {/* Thời gian kết thúc */}
-
+                        {/* /.cột 1 */}
                         </div>
                         
                         {/* Cột 2 */}
                         <div className="col-md-6">
 
                             <div className="form-group">
-                                <label>Tên giảng viên</label> 
+                                <label>Giảng viên</label> 
                                 <input 
                                     type="text"
                                     name="list_master"
@@ -205,7 +251,7 @@ class ClassForm extends Component {
                             </div>
 
                             <div className="form-group">
-                                <label>Tên quản lý</label>  
+                                <label>Quản lý</label>  
 
                                 {/* <button 
                                     type="button" 
@@ -225,7 +271,7 @@ class ClassForm extends Component {
                             </div>
                             
                             {/* Thời gian bắt đầu/kết thúc */}
-                            <div class="col-md-6">
+                            <div className="col-md-6">
                                 <div className="form-group">
                                     <label>Bắt đầu vào...</label>
                                     <input 
@@ -238,7 +284,7 @@ class ClassForm extends Component {
                                         onChange={this.onChange}/>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div className="col-md-6">
                                 <div className="form-group">
                                     <label>Kết thúc vào...</label>
                                     <input 
@@ -254,30 +300,24 @@ class ClassForm extends Component {
                             
                             {/* Địa chỉ (input) */}
                             <div className="form-group">
-                                <label>Địa chỉ</label>
-                                <input 
-                                    type="text"
-                                    name="location" 
-                                    className="form-control" 
-                                    id="" 
-                                    placeholder="Input field"
+                                <label>Địa điểm</label>                                       
+                                <select
+                                    className="form-control"
+                                    name="location"
                                     value={this.state.location}
-                                    onChange={this.onChange}/>
+                                    onChange={this.onChange}>
+                                    <option value="Đền Voi Phục, Thụy Khuê, Tây Hồ, Hà Nội">Đền Voi Phục, Thụy Khuê, Tây Hồ, Hà Nội</option>
+                                    <option value="Tòa VP6 245 Đội Cấn, Đội Cấn, Ba Đình, Hà Nội">Tòa VP6 245 Đội Cấn, Đội Cấn, Ba Đình, Hà Nội</option>
+                                    <option value="Số 1 Hoàng Quốc Việt, Nghĩa Đô, Cầu Giấy, Hà Nội">Số 1 Hoàng Quốc Việt, Nghĩa Đô, Cầu Giấy, Hà Nội</option>
+                                </select>
                             </div>
+
+                            {/* Danh sách học viên */}
+                            {this.state.id !== '' ? <ShowDetails clazz={this.state} /> : null}
                         </div>
 
                         {/* Hàng dưới */}
                         <div className="col-md-12">
-                            
-                            {/* Thêm ảnh đại diện lớp (file input) */}
-                            <div className="form-group">
-                                <label>Thêm ảnh</label>
-                                <input 
-                                    type="file"
-                                    name="pic"
-                                    />
-                                <p className="help-block">Thêm ảnh đại diện cho lớp học (tùy chọn)</p>
-                            </div>
 
                             {/* Thông tin thêm (text area) */}
                             <div className="form-group">
@@ -291,25 +331,29 @@ class ClassForm extends Component {
                                 </textarea>
                             </div>
                         </div>
+
+                        {/* Button hoàn tất  */}
                         <button 
                             type="submit" 
                             className="btn btn-primary ml-50p mb-5">
+                            <span className="fa fa-check mr-5"></span>
                             Hoàn tất
                         </button>
                         &nbsp;
-                        <button 
+                        {this.state.id === '' ? <ResetInfo onClearForm={this.onClearForm} /> : null }
+                        
+                        {/* <button 
                             type="button" 
                             className="btn btn-warning mb-5"
                             onClick={this.onClearForm}>
                             Đặt lại
-                        </button>                       
+                        </button>                        */}
                         &nbsp;
                         <button 
                             type="button" 
                             className="btn btn-danger mb-5"
                             onClick={this.onCloseForm}>
-                            <span className="fa fa-trash mr-5"></span> 
-                            &nbsp;
+                            <span className="fa fa-times mr-5"></span>
                             Hủy
                         </button>
                     </form>                       
