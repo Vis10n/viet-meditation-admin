@@ -59,11 +59,11 @@ class App extends Component {
         // });
 
         //Nếu form có thông tin: clear sạch thông tin rồi hiện
-        if (this.state.isDisplayForm === true && this.state.clazzEditing !== null) {
+        if (this.state.clazzEditing !== null) {
             this.setState({
                 clazzEditing: null
             });
-        } else if (this.state.isDisplayForm === false) {
+        } if (this.state.isDisplayForm === false) {
             this.onShowForm();
         } else if (this.state.isDisplayForm === true && this.state.clazzEditing === null) {
             this.onCloseForm();
