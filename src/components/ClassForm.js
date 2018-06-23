@@ -6,6 +6,7 @@ class ClassForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: '',
             name: '',
             type: true,
             level: 'sơ cấp',
@@ -19,6 +20,28 @@ class ClassForm extends Component {
             more_infor: ''
         }
     }
+
+    
+    componentWillMount() {
+        console.log("CWM");
+        if (this.props.clazz) {
+            this.setState({
+                id: this.props.clazz.id,
+                name: this.props.clazz.name,
+                type: this.props.clazz.type,
+                level: this.props.clazz.level,
+                status: this.props.clazz.status,
+                list_master: this.props.clazz.list_master,
+                list_manager: this.props.clazz.list_manager,
+                time_start: this.props.clazz.time_start,
+                time_end: this.props.clazz.time_end,
+                location: this.props.clazz.location,
+                pic: this.props.clazz.pic,
+                more_infor: this.props.clazz.more_infor
+            });
+        }
+    }
+    
     
     //TODO Bắt sự kiện thay đổi trường input
     onChange = (event) => {
@@ -42,7 +65,8 @@ class ClassForm extends Component {
         //Hoàn tất submit
         this.props.onSubmit(this.state);
         //Hoàn tất & Đóng form
-        this.props.onCloseForm();
+        this.onClearForm();
+        this.onCloseForm();
     }
 
     //TODO Đóng form
@@ -53,6 +77,7 @@ class ClassForm extends Component {
     //TODO Đặt lại giá trị default cho form
     onClearForm = () => {
         this.setState({
+            id: '',
             name: '',
             type: true,
             level: 'sơ cấp',

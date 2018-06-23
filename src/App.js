@@ -8,7 +8,8 @@ class App extends Component {
         super(props);
         this.state = {
             clazz: [],
-            isDisplayForm: false
+            isDisplayForm: false,
+            clazzEditing: null
         }
     }
     
@@ -23,75 +24,18 @@ class App extends Component {
             this.randomizeChar() + '-' + this.randomizeChar() + '-' + this.randomizeChar() + '-' + this.randomizeChar()
         );
     }
-    onGenerateData = () => {
-        var clazz = [
-            {
-                id: this.generateID(),
-                name: 'aaa',
-                type: true,
-                level: 'sơ cấp',
-                status: 'chưa khai giảng',
-                list_master: 'chien',
-                list_manager: 'chien',
-                time_start: '1/1/2018',
-                time_end: '1/2/2018',
-                location: 'HN'
-            },
-            {
-                id: this.generateID(),
-                name: 'aab',
-                type: true,
-                level: 'trung cấp',
-                status: 'đang học',
-                list_master: 'chien',
-                list_manager: 'chien',
-                time_start: '1/1/2018',
-                time_end: '1/2/2018',
-                location: 'HN'
-            },
-            {
-                id: this.generateID(),
-                name: 'abc',
-                type: false,
-                level: 'cao cấp',
-                status: 'bế giảng',
-                list_master: 'chien',
-                list_manager: 'chien',
-                time_start: '1/1/2018',
-                time_end: '1/2/2018',
-                location: 'HCM'
-            },
-            {
-                id: this.generateID(),
-                name: 'abb',
-                type: false,
-                level: 'sơ cấp',
-                status: 'bế giảng',
-                list_master: 'chien',
-                list_manager: 'chien',
-                time_start: '1/1/2018',
-                time_end: '1/2/2018',
-                location: 'HCM'
-            },
-            {
-                id: this.generateID(),
-                name: 'acc',
-                type: true,
-                level: 'đào tạo trợ giảng',
-                status: 'bế giảng',
-                list_master: 'chien',
-                list_manager: 'chien',
-                time_start: '1/1/2018',
-                time_end: '1/2/2018',
-                location: 'HN'
-            }
-        ]
-        this.setState({
-            clazz: clazz
-        });
-        localStorage.setItem('clazz', JSON.stringify(clazz));
-    }
 
+    //Tìm vị trí bản ghi
+    findIndex = (id) => {
+        var {clazz} = this.state;
+        var result = -1;
+        clazz.forEach((clazz, index) => {
+            if (clazz.id === id) {
+                result = index;
+            }
+        });
+        return result;
+    }
 
     // Hiển thị/Ẩn form thêm lớp mới
     onToggleForm = () => {
@@ -100,34 +44,59 @@ class App extends Component {
         });
     }
 
+    //Xóa bản ghi trong CSDL
+    onDelete = (id) => {
+        var {clazz} = this.state;
+        var index = this.findIndex(id);
+        if (id !== -1) {
+            clazz.splice(index, 1);
+            this.setState({
+                clazz: clazz
+            });
+            localStorage.setItem('clazz', JSON.stringify(clazz));
+        }
+        this.onCloseForm();
+    }
+
+    //Sửa bản ghi
+    onEdit = (id) => {
+        var {clazz} = this.state;
+        var index = this.findIndex(id);
+        var clazzEditing = clazz[index];
+        this.setState({
+            clazzEditing: clazzEditing
+        });
+        this.onShowForm();
+    }
+
+
+    //Submit data và lưu CSDL
     onSubmit = (data) => {
         console.log(data);
         var {clazz} = this.state;
         data.id = this.generateID();
         clazz.push(data);
-        // var clazz = {
-        //     name: data.name,
-        //     type: data.type,
-        //     level: data.level,
-        //     status: data.status,
-        //     list_master: data.list_master,
-        //     list_manager: data.list_manager,
-        //     time_start: data.time_start,
-        //     time_end: data.time_end,
-        //     location: data.location,
-        //     pic: data.pic,
-        //     more_infor: data.more_infor
-        // }
         this.setState({
             clazz: clazz
         });
         localStorage.setItem('clazz', JSON.stringify(clazz));
     }
 
+    //Đóng form
     onCloseForm = () => {
-        this.onToggleForm();
+        this.setState({
+            isDisplayForm: false
+        });
     }
 
+    //Mở form
+    onShowForm = () => {
+        this.setState({
+            isDisplayForm: true
+        });
+    }
+
+    //CWM
     componentWillMount() {
         if (localStorage && localStorage.getItem('clazz')) {
             var clazz = JSON.parse(localStorage.getItem('clazz'));
@@ -138,9 +107,13 @@ class App extends Component {
     }
 
     render() {
-        var {clazz, isDisplayForm} = this.state;
+        var {clazz, isDisplayForm, clazzEditing} = this.state; //remember: không được quên khai báo local var
         var elmClassForm = isDisplayForm 
-            ? <ClassForm onSubmit={this.onSubmit} onCloseForm={this.onCloseForm} /> : '';
+            ? <ClassForm 
+                onSubmit={this.onSubmit} 
+                onCloseForm={this.onCloseForm} 
+                clazz={clazzEditing}/> 
+                : '';
 
         return (
             <div className="App">
@@ -219,14 +192,7 @@ class App extends Component {
                         Lớp mới
                     </button>
 
-                    {/* a button to generate temporary data */}
-                    <button 
-                        type="button" 
-                        className="btn btn-danger"
-                        onClick={this.onGenerateData}>
-                        <span className="fa fa-plus mr-5"></span>
-                        &nbsp;Generate Data
-                    </button>
+                    
                     <br/>
 
                     {/* class form */}
@@ -237,8 +203,11 @@ class App extends Component {
 
 
                     {/* data tables */}                    
-                    <div className="col-xs-13 col-sm-13 col-md-13 col-lg-13">
-                        <ClassList clazz={clazz} />
+                    <div className="">
+                        <ClassList 
+                            clazz={clazz}
+                            onDelete={this.onDelete}
+                            onEdit={this.onEdit} />
                     </div>
                                    
                 {/* /.main */}

@@ -1,11 +1,23 @@
 import React, {Component} from 'react';
 
 class ClassItem extends Component {
+    
+    //TODO truyền clazz.id về Component cha
+    //Xóa
+    onDelete = () => {
+        this.props.onDelete(this.props.clazz.id)
+    }
+
+    //Sửa
+    onEdit = () => {
+        this.props.onEdit(this.props.clazz.id)
+    }
+
     render() {
         var {clazz, index} = this.props;
 
         return (
-            <tr>
+            <tr onClick={this.onEdit}>
                 <td>{index}</td>
                 <td>{clazz.name}</td>
                 <td className="text-center">
@@ -31,7 +43,8 @@ class ClassItem extends Component {
                     &nbsp; */}
                     <button 
                         type="button" 
-                        className="btn btn-danger">
+                        className="btn btn-danger"
+                        onClick={this.onDelete}>
                         <span className="fa fa-trash mr-5"></span> 
                         &nbsp;
                         Xóa

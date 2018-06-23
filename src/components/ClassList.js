@@ -10,7 +10,9 @@ class ClassList extends Component {
             return <ClassItem 
                         key={clazz.id} 
                         index={index} 
-                        clazz={clazz} 
+                        clazz={clazz}
+                        onDelete={this.props.onDelete} 
+                        onEdit={this.props.onEdit}
                     />
         });
 
