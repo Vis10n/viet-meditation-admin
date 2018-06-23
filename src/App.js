@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+
 import './App.css';
+import Login from './components/Login';
 import ClassList from './components/ClassList';
 import ClassForm from './components/ClassForm';
 
@@ -39,9 +42,17 @@ class App extends Component {
 
     // Hiển thị/Ẩn form thêm lớp mới
     onToggleForm = () => {
+        //Ẩn form khi đang hiện & hiện form khi đang ẩn
         this.setState({
             isDisplayForm: !this.state.isDisplayForm
         });
+
+        //Nếu form có thông tin: clear sạch thông tin rồi hiện
+        if (this.state.clazzEditing !== null) {
+            this.setState({
+                clazzEditing: null
+            });
+        }
     }
 
     //Xóa bản ghi trong CSDL
@@ -60,12 +71,18 @@ class App extends Component {
 
     //Sửa bản ghi
     onEdit = (id) => {
+
+        // Lấy data từ state
         var {clazz} = this.state;
+
+        //Tìm vị trí và bắt thông tin bản ghi người dùng chọn
         var index = this.findIndex(id);
         var clazzEditing = clazz[index];
         this.setState({
             clazzEditing: clazzEditing
         });
+
+        //Hiển thị form thông tin của bản ghi người dùng chọn
         this.onShowForm();
     }
 
@@ -105,6 +122,15 @@ class App extends Component {
             })
         }
     }
+
+    //Đăng xuất (temp)
+    logOut = () => {
+        ReactDOM.render(
+            <Login />,
+            document.getElementById("root")
+        );
+    }
+
 
     render() {
         var {clazz, isDisplayForm, clazzEditing} = this.state; //remember: không được quên khai báo local var
@@ -160,7 +186,7 @@ class App extends Component {
                             </a>
                         </li>
                         <li>
-                            <a href="">
+                            <a onClick={this.logOut}>
                                 <em className="fa fa-power-off">
                                     &nbsp;
                                 </em>

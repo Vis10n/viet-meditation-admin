@@ -13,12 +13,14 @@ class ClassItem extends Component {
         this.props.onEdit(this.props.clazz.id)
     }
 
+    //Render function
     render() {
         var {clazz, index} = this.props;
 
         return (
-            <tr onClick={this.onEdit}>
-                <td>{index}</td>
+            // bắt sự kiện Edit khi click vào từng dòng trong bảng
+            <tr onClick={this.onEdit}>    
+                <td>{index + 1}</td>
                 <td>{clazz.name}</td>
                 <td className="text-center">
                     <span className={clazz.type === true ? "label label-success" : "label label-default"}>

@@ -21,7 +21,8 @@ class ClassForm extends Component {
         }
     }
 
-    
+    //CWM
+    //TODO Lấy thông tin của bản ghi mà người dùng click vào.
     componentWillMount() {
         console.log("CWM");
         if (this.props.clazz) {
@@ -192,13 +193,7 @@ class ClassForm extends Component {
                         <div className="col-md-6">
 
                             <div className="form-group">
-                                <label>Tên giảng viên</label>  
-                                {/* <button 
-                                    type="button" 
-                                    class="btn btn-primary m-5"
-                                    onClick={this.addTeacher}>
-                                    Thêm giảng viên
-                                </button>  */}
+                                <label>Tên giảng viên</label> 
                                 <input 
                                     type="text"
                                     name="list_master"
@@ -218,6 +213,7 @@ class ClassForm extends Component {
                                     onClick={this.addTeacher}>
                                     Thêm quản lý
                                 </button>  */}
+
                                 <input 
                                     type="text"
                                     name="list_manager" 
@@ -227,8 +223,36 @@ class ClassForm extends Component {
                                     placeholder="Input field"
                                     onChange={this.onChange}/>
                             </div>
-
-                            {/* Tên lớp học (input) */}
+                            
+                            {/* Thời gian bắt đầu/kết thúc */}
+                            <div class="col-md-6">
+                                <div className="form-group">
+                                    <label>Bắt đầu vào...</label>
+                                    <input 
+                                        type="text"
+                                        name="time_start" 
+                                        className="form-control" 
+                                        id="" 
+                                        placeholder="Input field"
+                                        value={this.state.time_start}
+                                        onChange={this.onChange}/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div className="form-group">
+                                    <label>Kết thúc vào...</label>
+                                    <input 
+                                        type="text"
+                                        name="time_end" 
+                                        className="form-control" 
+                                        id="" 
+                                        placeholder="Input field"
+                                        value={this.state.time_end}
+                                        onChange={this.onChange}/>
+                                </div>
+                            </div>
+                            
+                            {/* Địa chỉ (input) */}
                             <div className="form-group">
                                 <label>Địa chỉ</label>
                                 <input 
