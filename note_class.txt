@@ -32,21 +32,21 @@ arrClass = [
 			];
 			
 	Mỗi mảng chứa thông tin của lớp học có cấu trúc cụ thể như sau:
-	[0] -> Id class (id_lớp)
-	[1] -> Tên lớp
-	[2] -> Kiểu lớp
-	[3] -> Level lớp 
-	[4] -> Trạng thái
+	[0] -> Id class (id_lớp)	----------------------------------------v
+	[1] -> Tên lớp				----------------------------------------v
+	[2] -> Kiểu lớp				----------------------------------------v
+	[3] -> Level lớp 			----------------------------------------v
+	[4] -> Trạng thái			----------------------------------------v
 	[5] -> Danh sách các thành viên tham gia giảng dạy
 			Arr_MasterS = [Arr Master0, Arr Master1, ... ]
 			Arr Master0 :   [0] -> Id_user
 							[1] -> Tên user 
 	[6] -> Danh sách các quản lý lớp (tương tự danh sách các thành viên master ở trên)
 	[7] -> Số lượng học viên
-	[8] -> Thời gian bắt đầu  - dạng dd/mm/yyyy
-	[9] -> Thời gian kết thúc - dạng dd/mm/yyyy
-	[10] -> Địa điểm (text) 
-	[11]-> Thông tin bổ sung
+	[8] -> Thời gian bắt đầu  - dạng dd/mm/yyyy	------------------------v
+	[9] -> Thời gian kết thúc - dạng dd/mm/yyyy	------------------------v
+	[10] -> Địa điểm (text) 	----------------------------------------v
+	[11]-> Thông tin bổ sung	----------------------------------------v
 	
 Từ arrClass em vẽ thành bảng nhé
 --------------------------------
@@ -91,29 +91,29 @@ Thông tin gửi lên:
 Mảng nhận về: 
 {
 	[0] -> Id class (id_lớp)
-	[1] -> Tên lớp
-	[2] -> Kiểu lớp
-	[3] -> Level lớp 
-	[4] -> Trạng thái
-	[5] -> Danh sách các thành viên tham gia giảng dạy
+	[1] -> Tên lớp	------------------------------v
+	[2] -> Kiểu lớp	------------------------------v
+	[3] -> Level lớp	--------------------------v
+	[4] -> Trạng thái	--------------------------v
+	[5] -> Danh sách các thành viên tham gia giảng dạy	v
 			Arr_MasterS = [Arr Master0, Arr Master1, ... ]
 			Arr Master0 :   [0] -> Id_user
 							[1] -> Tên user 
-	[6] -> Danh sách các quản lý lớp (tương tự danh sách các thành viên master ở trên)
+	[6] -> Danh sách các quản lý lớp (tương tự danh sách các thành viên master ở trên)	v
 	[7] -> Số lượng học viên
-	[8] -> Thời gian bắt đầu  - dạng dd/mm/yyyy
-	[9] -> Thời gian kết thúc - dạng dd/mm/yyyy
-	[10] -> Địa điểm (text) 
-	[11]-> Thông tin bổ sung
+	[8] -> Thời gian bắt đầu  - dạng dd/mm/yyyy	--------v
+	[9] -> Thời gian kết thúc - dạng dd/mm/yyyy	--------v
+	[10] -> Địa điểm (text)		------------------------v
+	[11]-> Thông tin bổ sung	------------------------v
 	// 
-	[12] -> Danh sách formal name học viên = [arrStudent0, arrStudent1 ... ]
-	[13] -> Link ảnh trên Server - Cho người dùng upload ảnh lên để thay ảnh của Class 
+	[12] -> Danh sách formal name học viên = [arrStudent0, arrStudent1 ... ]	--------------v
+	[13] -> Link ảnh trên Server - Cho người dùng upload ảnh lên để thay ảnh của Class	------v
 }
 // Chi tiết phần formal name học viên
-arrStudent0-> Array: [0] -> id_student 
-					 [1] -> Họ tên 
-					 [2] -> Ngày sinh 
-					 [3] -> Địa chỉ 
+arrStudent0-> Array: [0] -> id_student	------------------v
+					 [1] -> Họ tên		------------------v
+					 [2] -> Ngày sinh	------------------v
+					 [3] -> Địa chỉ		------------------v
 ->> Danh sách formal name học viên e kẻ thành 1 bảng xong có button edit từng dòng như e vừa nói với anh nhé
 
 // Keep going - Don't Settle - Stay Hungry - Stay Foolish
