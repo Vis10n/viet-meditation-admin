@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import './App.css';
+
 import Login from './components/Login';
 import ClassList from './components/ClassList';
 import ClassForm from './components/ClassForm';
@@ -27,11 +28,44 @@ class App extends Component {
             }
         }
     }
-    
+
+
+    onGenerateData = () => {
+        var clazz = [
+            {
+                id: this.generateID(),
+                name: 'Thiền tạm thời',
+                type: true,
+                level: 'sơ cấp',
+                status: 'chưa khai giảng',
+                list_master: 'Danhpapatutu',
+                list_manager: 'Anie',
+                time_start: '2018-07-01',
+                time_end: '2018-08-01',
+                location: 'Đền Voi Phục, Thụy Khuê, Tây Hồ, Hà Nội',
+                formal_name: [
+                    {
+                        id: this.generateID(),
+                        fullname: 'TMC',
+                        birth: '1997-01-01',
+                        address: 'Kho vũ khí Bắc Ninh'
+                    },
+                    {
+                        id: this.generateID(),
+                        fullname: 'Piggy',
+                        birth: '1997-02-05',
+                        address: 'HN'
+                    }                  
+                ]
+            }
+        ]
+        localStorage.setItem('clazz', JSON.stringify(clazz));
+    }
+
     //TODO generate ID cho tmpData
     randomizeChar = () => {
         return (
-            Math.floor((1+Math.random()) * 0x10000).toString(16).substring(1)
+            Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)
         );
     }
     generateID = () => {
@@ -42,7 +76,7 @@ class App extends Component {
 
     //TODO Tìm vị trí bản ghi
     findIndex = (id) => {
-        var {clazz} = this.state;
+        var { clazz } = this.state;
         var result = -1;
         clazz.forEach((clazz, index) => {
             if (clazz.id === id) {
@@ -73,7 +107,7 @@ class App extends Component {
 
     //TODO Xóa bản ghi trong CSDL
     onDelete = (id) => {
-        var {clazz} = this.state;
+        var { clazz } = this.state;
         var index = this.findIndex(id);
         if (id !== -1) {
             clazz.splice(index, 1);
@@ -89,7 +123,7 @@ class App extends Component {
     onEdit = (id) => {
 
         // Lấy data từ state
-        var {clazz} = this.state;
+        var { clazz } = this.state;
 
         //Tìm vị trí và bắt thông tin bản ghi người dùng chọn
         var index = this.findIndex(id);
@@ -97,7 +131,7 @@ class App extends Component {
         this.setState({
             clazzEditing: clazzEditing
         });
-
+        console.log(clazzEditing);
         //Hiển thị form thông tin của bản ghi người dùng chọn
         this.onShowForm();
     }
@@ -110,14 +144,14 @@ class App extends Component {
         filterLevel = parseInt(filterLevel, 10);
         filterStatus = parseInt(filterStatus, 10);
         filterLocation = parseInt(filterLocation, 10);
-        
+
         //gán giá trị vào state filter để render kết quả
         this.setState({
             filter: {
                 name: filterName.toLowerCase(),
-                type: filterType, 
-                level: filterLevel, 
-                status: filterStatus, 
+                type: filterType,
+                level: filterLevel,
+                status: filterStatus,
                 listMaster: filterListMaster.toLowerCase(),
                 listManager: filterListManager.toLowerCase(),
                 timeStart: filterTimeStart.toLowerCase(),
@@ -131,12 +165,13 @@ class App extends Component {
     //Submit data và lưu CSDL
     onSubmit = (data) => {
         console.log(data);
-        var {clazz} = this.state;
+        var { clazz } = this.state;
 
         //Kiểm tra trạng thái (Thêm hay sửa?)
         if (data.id === '') {                   //Thêm bản ghi mới
             data.id = this.generateID();
-            clazz.push(data);      
+            data.formal_name = [];
+            clazz.push(data);
         } else {                                //Cập nhật bản ghi sẵn có
             var index = this.findIndex(data.id);
             clazz[index] = data;
@@ -182,13 +217,13 @@ class App extends Component {
 
 
     render() {
-        var {clazz, isDisplayForm, clazzEditing, filter} = this.state; //remember: không được quên khai báo local var
+        var { clazz, isDisplayForm, clazzEditing, filter } = this.state; //remember: không được quên khai báo local var
         //console.log(filter);
-        
+
         //TODO: Lọc dữ liệu
         if (filter) {
             //Lọc theo tên lớp học
-            if(filter.name) {
+            if (filter.name) {
                 clazz = clazz.filter((clazz) => {
                     return clazz.name.toLowerCase().indexOf(filter.name) !== -1;
                 });
@@ -225,30 +260,30 @@ class App extends Component {
                     else return elmClazz.status === "bế giảng";
                 }
             });
-            
+
             //Lọc theo giảng viên
-            if(filter.listMaster) {
+            if (filter.listMaster) {
                 clazz = clazz.filter((clazz) => {
                     return clazz.list_master.toLowerCase().indexOf(filter.listMaster) !== -1;
                 });
             }
 
             //Lọc theo quản lý
-            if(filter.listManager) {
+            if (filter.listManager) {
                 clazz = clazz.filter((clazz) => {
                     return clazz.list_manager.toLowerCase().indexOf(filter.listManager) !== -1;
                 });
             }
 
             //Lọc theo thời điểm bắt đầu
-            if(filter.timeStart) {
+            if (filter.timeStart) {
                 clazz = clazz.filter((clazz) => {
                     return clazz.time_start.toLowerCase().indexOf(filter.timeStart) !== -1;
                 });
             }
 
             //Lọc theo thời điểm kết thúc
-            if(filter.timeEnd) {
+            if (filter.timeEnd) {
                 clazz = clazz.filter((clazz) => {
                     return clazz.time_end.toLowerCase().indexOf(filter.timeEnd) !== -1;
                 });
@@ -267,12 +302,12 @@ class App extends Component {
         }
 
         //TODO Show thông tin classForm
-        var elmClassForm = isDisplayForm 
-            ? <ClassForm 
-                onSubmit={this.onSubmit} 
-                onCloseForm={this.onCloseForm} 
-                clazz={clazzEditing}/> 
-                : '';
+        var elmClassForm = isDisplayForm
+            ? <ClassForm
+                onSubmit={this.onSubmit}
+                onCloseForm={this.onCloseForm}
+                clazz={clazzEditing} />
+            : '';
 
         return (
             <div className="App">
@@ -285,22 +320,22 @@ class App extends Component {
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span></button>
-                            <a className="navbar-brand" href="">
+                            <a className="navbar-brand">
                                 <span>.Viet</span>
                                 Meditation
                             </a>
                         </div>
-                    {/* /.container-fluid  */}
+                        {/* /.container-fluid  */}
                     </div>
 
-                {/* /.nav */}
+                    {/* /.nav */}
                 </nav>
 
                 {/* sidebar */}
                 <div id="sidebar-collapse" className="col-sm-3 col-lg-2 sidebar">
                     <div className="profile-sidebar">
                         <div className="profile-userpic">
-                            <img src="http://placehold.it/50/30a5ff/fff" className="img-responsive" alt=""/>
+                            <img src="http://placehold.it/50/30a5ff/fff" className="img-responsive" alt="" />
                         </div>
                         <div className="profile-usertitle">
                             <div className="profile-usertitle-name">Administrator</div>
@@ -311,10 +346,10 @@ class App extends Component {
                     <div className="divider"></div>
                     <ul className="nav menu">
                         <li className="active">
-                            <a href="">
+                            <a>
                                 <em className="fa fa-dashboard">
                                     &nbsp;
-                                </em> 
+                                </em>
                                 Dashboard
                             </a>
                         </li>
@@ -327,14 +362,14 @@ class App extends Component {
                             </a>
                         </li>
                     </ul>
-                {/* /.sidebar */}
+                    {/* /.sidebar */}
                 </div>
 
                 {/* main */}
                 <div className="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
                     <div className="row mt-60">
                         <ol className="breadcrumb">
-                            <li><a href="">
+                            <li><a>
                                 <em className="fa fa-home"></em>
                             </a></li>
                             <li className="active">Dashboard</li>
@@ -344,8 +379,14 @@ class App extends Component {
                     {/* Thêm công việc */}
                     <AddClass onToggleForm={this.onToggleForm} />
 
-                    
-                    <br/>
+                    {/* a button to generate temporary data */}
+                        {/* <button 
+                            type="button" 
+                            className="btn btn-danger"
+                            onClick={this.onGenerateData}>
+                            <span className="fa fa-plus mr-5"></span>
+                            &nbsp;Generate Data
+                     </button> */}
 
                     {/* class form */}
                     {elmClassForm}
@@ -354,16 +395,16 @@ class App extends Component {
                     {/* Datatable Controler (Search/sort) */}
 
 
-                    {/* data tables */}                    
+                    {/* data tables */}
                     <div className="">
-                        <ClassList 
+                        <ClassList
                             clazz={clazz}
                             onDelete={this.onDelete}
                             onEdit={this.onEdit}
                             onFilter={this.onFilter} />
                     </div>
-                                   
-                {/* /.main */}
+
+                    {/* /.main */}
                 </div>
 
             </div>

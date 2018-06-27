@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ResetInfo from './ResetInfo';
-import ShowDetails from './ShowDetails';
+import ShowMembers from './ShowMembers';
 
 class ClassForm extends Component {
 
@@ -43,11 +43,11 @@ class ClassForm extends Component {
             });
         }
     }
-    
+
     //Update thông tin form 
     componentWillReceiveProps(nextProps) {
         //trường họp sửa
-        if(nextProps && nextProps.clazz){
+        if (nextProps && nextProps.clazz) {
             this.setState({
                 id: nextProps.clazz.id,
                 name: nextProps.clazz.name,
@@ -61,8 +61,8 @@ class ClassForm extends Component {
                 location: nextProps.clazz.location,
                 pic: nextProps.clazz.pic,
                 more_infor: nextProps.clazz.more_infor
-            });   
-        //trường hợp sửa -> thêm
+            });
+            //trường hợp sửa -> thêm
         } else if (nextProps && nextProps.clazz === null) {
             console.log()
             this.setState({
@@ -81,7 +81,7 @@ class ClassForm extends Component {
             });
         }
     }
-    
+
     //TODO Bắt sự kiện thay đổi trường input
     onChange = (event) => {
         var target = event.target;
@@ -129,18 +129,18 @@ class ClassForm extends Component {
             more_infor: ''
         })
     }
-    
+
     //TODO render
     render() {
-        return (            
+        return (
             <div className="panel panel-primary col-xs-13 col-sm-13 col-md-13 col-lg-13">
                 <div className="panel-heading">
                     <h3 className="panel-title">
                         {this.state.id !== '' ? 'Chỉnh sửa & Cập nhật lớp' : 'Thêm lớp học mới'}
                         &nbsp;
-                    </h3>                                     
+                    </h3>
                 </div>
-                <div className="panel-body">                                    
+                <div className="panel-body">
                     <form onSubmit={this.onSubmit}>
                         {/* Cột 1 */}
                         <div className="col-md-6">
@@ -148,14 +148,14 @@ class ClassForm extends Component {
                             {/* Tên lớp học (input) */}
                             <div className="form-group">
                                 <label>Tên lớp học</label>
-                                <input 
+                                <input
                                     type="text"
-                                    name="name" 
-                                    className="form-control" 
-                                    id="" 
+                                    name="name"
+                                    className="form-control"
+                                    id=""
                                     placeholder="Input field"
                                     value={this.state.name}
-                                    onChange={this.onChange}/>
+                                    onChange={this.onChange} />
                             </div>
 
                             {/* Loại lớp học (radio) */}
@@ -163,35 +163,35 @@ class ClassForm extends Component {
                                 <label>Loại lớp học</label>
                                 <div className="radio">
                                     <label>
-                                        <input 
-                                            type="radio" 
-                                            name="type" 
-                                            id="optionsRadios1" 
+                                        <input
+                                            type="radio"
+                                            name="type"
+                                            id="optionsRadios1"
                                             value={true}
-                                            onChange={this.onChange}/>
-                                            <span className="label label-success">
-                                                Online
+                                            onChange={this.onChange} />
+                                        <span className="label label-success">
+                                            Online
                                             </span>
                                     </label>
                                 </div>
                                 <div className="radio">
                                     <label>
-                                        <input 
-                                            type="radio" 
-                                            name="type" 
-                                            id="optionsRadios1" 
+                                        <input
+                                            type="radio"
+                                            name="type"
+                                            id="optionsRadios1"
                                             value={false}
-                                            onChange={this.onChange}/>
-                                            <span className="label label-default">
-                                                Offline
+                                            onChange={this.onChange} />
+                                        <span className="label label-default">
+                                            Offline
                                             </span>
                                     </label>
-                                </div> 
+                                </div>
                             </div>
 
                             {/* cấp độ lớp (select) */}
                             <div className="form-group">
-                                <label>Cấp độ</label>                                       
+                                <label>Cấp độ</label>
                                 <select
                                     className="form-control"
                                     name="level"
@@ -206,7 +206,7 @@ class ClassForm extends Component {
 
                             {/* trạng thái lớp (select) */}
                             <div className="form-group">
-                                <label>Trạng thái lớp</label>                                       
+                                <label>Trạng thái lớp</label>
                                 <select
                                     className="form-control"
                                     name="status"
@@ -217,37 +217,37 @@ class ClassForm extends Component {
                                     <option value="bế giảng">Bế giảng</option>
                                 </select>
                             </div>
-                            
+
                             {/* Thêm ảnh đại diện lớp (file input) */}
                             <div className="form-group">
                                 <label>Thêm ảnh</label>
-                                <input 
+                                <input
                                     type="file"
                                     name="pic"
-                                    />
+                                />
                                 <p className="help-block">Thêm ảnh đại diện cho lớp học (tùy chọn)</p>
                             </div>
 
-                        {/* /.cột 1 */}
+                            {/* /.cột 1 */}
                         </div>
-                        
+
                         {/* Cột 2 */}
                         <div className="col-md-6">
 
                             <div className="form-group">
-                                <label>Giảng viên</label> 
-                                <input 
+                                <label>Giảng viên</label>
+                                <input
                                     type="text"
                                     name="list_master"
-                                    value={this.state.list_master} 
-                                    className="form-control" 
-                                    id="" 
+                                    value={this.state.list_master}
+                                    className="form-control"
+                                    id=""
                                     placeholder="Input field"
-                                    onChange={this.onChange}/>
+                                    onChange={this.onChange} />
                             </div>
 
                             <div className="form-group">
-                                <label>Quản lý</label>  
+                                <label>Quản lý</label>
 
                                 {/* <button 
                                     type="button" 
@@ -256,50 +256,50 @@ class ClassForm extends Component {
                                     Thêm quản lý
                                 </button>  */}
 
-                                <input 
+                                <input
                                     type="text"
-                                    name="list_manager" 
+                                    name="list_manager"
                                     value={this.state.list_manager}
-                                    className="form-control m-el-5" 
-                                    id="" 
+                                    className="form-control m-el-5"
+                                    id=""
                                     placeholder="Input field"
-                                    onChange={this.onChange}/>
+                                    onChange={this.onChange} />
                             </div>
-                            
+
                             {/* Thời gian bắt đầu/kết thúc */}
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <label>Bắt đầu vào...</label>
-                                    <input 
+                                    <input
                                         type="date"
-                                        name="time_start" 
-                                        className="form-control" 
-                                        id="" 
+                                        name="time_start"
+                                        className="form-control"
+                                        id=""
                                         placeholder="Input field"
                                         value={this.state.time_start}
-                                        onChange={this.onChange}/>
+                                        onChange={this.onChange} />
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <label>Kết thúc vào...</label>
-                                    <input 
+                                    <input
                                         type="date"
-                                        name="time_end" 
-                                        className="form-control" 
-                                        id="" 
+                                        name="time_end"
+                                        className="form-control"
+                                        id=""
                                         placeholder="Input field"
                                         value={this.state.time_end}
-                                        onChange={this.onChange}/>
+                                        onChange={this.onChange} />
                                 </div>
                             </div>
                             <div className="col-md-12">
                                 {this.state.checkTime === false ? "Ngày kết thúc không thể trước ngày bắt đầu!" : ""}
                             </div>
-                            
+
                             {/* Địa chỉ (input) */}
                             <div className="form-group">
-                                <label>Địa điểm</label>                                       
+                                <label>Địa điểm</label>
                                 <select
                                     className="form-control"
                                     name="location"
@@ -312,7 +312,9 @@ class ClassForm extends Component {
                             </div>
 
                             {/* Danh sách học viên */}
-                            {this.state.id !== '' ? <ShowDetails clazz={this.state} /> : null}
+                            {this.state.id !== '' ? 
+                                <ShowMembers    clazz={this.props.clazz}
+                                /> : null}
                         </div>
 
                         {/* Hàng dưới */}
@@ -321,8 +323,8 @@ class ClassForm extends Component {
                             {/* Thông tin thêm (text area) */}
                             <div className="form-group">
                                 <label>Thông tin thêm</label>
-                                <textarea 
-                                    className="form-control" 
+                                <textarea
+                                    className="form-control"
                                     rows="3"
                                     name="more_infor"
                                     value={this.state.more_infor}
@@ -332,20 +334,20 @@ class ClassForm extends Component {
                         </div>
 
                         {/* Button hoàn tất  */}
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             className="btn btn-primary ml-50p mb-5"
                             disabled={!this.state.name
-                                    ||  !this.state.list_master
-                                    ||  !this.state.list_manager
-                                    ||  !this.state.time_start
-                                    ||  !this.state.time_end}>
+                                || !this.state.list_master
+                                || !this.state.list_manager
+                                || !this.state.time_start
+                                || !this.state.time_end}>
                             <span className="fa fa-check mr-5"></span>
                             Hoàn tất
                         </button>
                         &nbsp;
-                        {this.state.id === '' ? <ResetInfo onClearForm={this.onClearForm} /> : null }
-                        
+                        {this.state.id === '' ? <ResetInfo onClearForm={this.onClearForm} /> : null}
+
                         {/* <button 
                             type="button" 
                             className="btn btn-warning mb-5"
@@ -353,15 +355,15 @@ class ClassForm extends Component {
                             Đặt lại
                         </button>                        */}
                         &nbsp;
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             className="btn btn-danger mb-5"
                             onClick={this.onCloseForm}>
                             <span className="fa fa-times mr-5"></span>
                             Hủy
                         </button>
-                    </form>                       
-                </div>                                      
+                    </form>
+                </div>
             </div>
         );
     }

@@ -32,7 +32,7 @@ class Login extends Component {
                             <fieldset>
                                 <div className="form-group">
                                     {/* input usrname */}
-                                    <input className="form-control" placeholder="Tài khoản" name="username" type="username" autofocus=""/>
+                                    <input className="form-control" placeholder="Tài khoản" name="username" type="username" />
                                 </div>
 
                                 <div className="form-group">
