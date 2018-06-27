@@ -5,6 +5,7 @@ import './App.css';
 import Login from './components/Login';
 import ClassList from './components/ClassList';
 import ClassForm from './components/ClassForm';
+import AddClass from './components/AddClass';
 
 class App extends Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class App extends Component {
         }
     }
     
-    // tạo tmpData để test
+    //TODO generate ID cho tmpData
     randomizeChar = () => {
         return (
             Math.floor((1+Math.random()) * 0x10000).toString(16).substring(1)
@@ -39,7 +40,7 @@ class App extends Component {
         );
     }
 
-    //Tìm vị trí bản ghi
+    //TODO Tìm vị trí bản ghi
     findIndex = (id) => {
         var {clazz} = this.state;
         var result = -1;
@@ -51,7 +52,7 @@ class App extends Component {
         return result;
     }
 
-    // Hiển thị/Ẩn form thêm lớp mới
+    //TODO Hiển thị/Ẩn form thêm lớp mới
     onToggleForm = () => {
         //Ẩn form khi đang hiện & hiện form khi đang ẩn
         // this.setState({
@@ -70,7 +71,7 @@ class App extends Component {
         }
     }
 
-    //Xóa bản ghi trong CSDL
+    //TODO Xóa bản ghi trong CSDL
     onDelete = (id) => {
         var {clazz} = this.state;
         var index = this.findIndex(id);
@@ -84,7 +85,7 @@ class App extends Component {
         this.onCloseForm();
     }
 
-    //Sửa bản ghi
+    //TODO Sửa bản ghi
     onEdit = (id) => {
 
         // Lấy data từ state
@@ -146,14 +147,14 @@ class App extends Component {
         localStorage.setItem('clazz', JSON.stringify(clazz));
     }
 
-    //Đóng form
+    //TODO Đóng form
     onCloseForm = () => {
         this.setState({
             isDisplayForm: false
         });
     }
 
-    //Mở form
+    //TODO Mở form
     onShowForm = () => {
         this.setState({
             isDisplayForm: true
@@ -341,13 +342,7 @@ class App extends Component {
                     </div>
 
                     {/* Thêm công việc */}
-                    <button 
-                        type="button" 
-                        className="btn btn-primary m-el-5"
-                        onClick={this.onToggleForm}>
-                        <span className="fa fa-plus mr-5"></span>
-                        Thêm lớp
-                    </button>
+                    <AddClass onToggleForm={this.onToggleForm} />
 
                     
                     <br/>

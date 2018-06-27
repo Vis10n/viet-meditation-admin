@@ -19,7 +19,6 @@ class ClassForm extends Component {
             time_end: '',
             location: 'Đền Voi Phục, Thụy Khuê, Tây Hồ, Hà Nội',
             pic: '',
-            more_infor: ''
         }
     }
 
@@ -83,7 +82,6 @@ class ClassForm extends Component {
         }
     }
     
-    
     //TODO Bắt sự kiện thay đổi trường input
     onChange = (event) => {
         var target = event.target;
@@ -102,7 +100,6 @@ class ClassForm extends Component {
     onSubmit = (event) => {
         //chặn submit lên url
         event.preventDefault();
-
         //Hoàn tất submit
         this.props.onSubmit(this.state);
         //Hoàn tất & Đóng form
@@ -110,7 +107,7 @@ class ClassForm extends Component {
         this.onCloseForm();
     }
 
-    //TODO Đóng form
+    //TODO Bắt sự kiện đóng form
     onCloseForm = () => {
         this.props.onCloseForm();
     }
@@ -135,7 +132,6 @@ class ClassForm extends Component {
     
     //TODO render
     render() {
-
         return (            
             <div className="panel panel-primary col-xs-13 col-sm-13 col-md-13 col-lg-13">
                 <div className="panel-heading">
@@ -275,7 +271,7 @@ class ClassForm extends Component {
                                 <div className="form-group">
                                     <label>Bắt đầu vào...</label>
                                     <input 
-                                        type="text"
+                                        type="date"
                                         name="time_start" 
                                         className="form-control" 
                                         id="" 
@@ -288,7 +284,7 @@ class ClassForm extends Component {
                                 <div className="form-group">
                                     <label>Kết thúc vào...</label>
                                     <input 
-                                        type="text"
+                                        type="date"
                                         name="time_end" 
                                         className="form-control" 
                                         id="" 
@@ -296,6 +292,9 @@ class ClassForm extends Component {
                                         value={this.state.time_end}
                                         onChange={this.onChange}/>
                                 </div>
+                            </div>
+                            <div className="col-md-12">
+                                {this.state.checkTime === false ? "Ngày kết thúc không thể trước ngày bắt đầu!" : ""}
                             </div>
                             
                             {/* Địa chỉ (input) */}
@@ -335,7 +334,12 @@ class ClassForm extends Component {
                         {/* Button hoàn tất  */}
                         <button 
                             type="submit" 
-                            className="btn btn-primary ml-50p mb-5">
+                            className="btn btn-primary ml-50p mb-5"
+                            disabled={!this.state.name
+                                    ||  !this.state.list_master
+                                    ||  !this.state.list_manager
+                                    ||  !this.state.time_start
+                                    ||  !this.state.time_end}>
                             <span className="fa fa-check mr-5"></span>
                             Hoàn tất
                         </button>

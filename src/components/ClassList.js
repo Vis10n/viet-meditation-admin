@@ -139,7 +139,7 @@ class ClassList extends Component {
                         </td>
                         <td>
                             <input 
-                                type="text" 
+                                type="date" 
                                 className="form-control" 
                                 name="filterTimeStart" 
                                 value={filterTimeStart}
@@ -147,7 +147,7 @@ class ClassList extends Component {
                         </td>
                         <td>
                             <input 
-                                type="text" 
+                                type="date" 
                                 className="form-control" 
                                 name="filterTimeEnd"
                                 value={filterTimeEnd}
