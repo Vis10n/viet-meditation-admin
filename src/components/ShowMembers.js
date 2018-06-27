@@ -6,7 +6,9 @@ class ShowMembers extends Component {
     
     onShowMembers = () => {
         ReactDOM.render(
-            <Members member={this.props.clazz.formal_name}/>,
+            <Members 
+                clzName={this.props.clazz.name}
+                member={this.props.clazz.formal_name}/>,
             document.getElementById("root")
         );
     }
