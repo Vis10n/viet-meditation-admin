@@ -4,16 +4,71 @@ import App from '../App';
 import Login from './Login';
 import AddMember from './AddMember';
 import MemberList from './MemberList';
+import MemberForm from './MemberForm';
 
 class Members extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            formal_list: [],
+            formal_name: [],
             isDisplayForm: false,
             memberEditing: null,
         }
+    }
+
+    //TODO Tìm vị trí bản ghi
+    findIndex = (id) => {
+        var { formal_name } = this.state;
+        var result = -1;
+        formal_name.forEach((formal_name, index) => {
+            if (formal_name.id === id) {
+                result = index;
+            }
+        });
+        return result;
+    }
+
+    onDelete = (id) => {
+        var {formal_name} = this.state;
+        var index = this.findIndex(id);
+        if (id !== -1) {
+            formal_name.splice(index, 1);
+            this.setState({
+                formal_name: formal_name
+            });
+            this.props.onSubmitMemb(formal_name);
+        }
+        this.onCloseForm();
+    }
+
+    //CWM   
+    componentWillMount() {
+        this.setState({
+            formal_name: this.props.formal_name
+        })
+    }
+    
+    
+    onSubmitMemb = (data) => {
+        var {formal_name} = this.state;
+        if (data.id === '') {
+            data.id = this.generateID();
+            formal_name.push(data);
+        }
+        this.props.onSubmitMemb(formal_name);
+    }
+
+    //TODO generate ID cho tmpData
+    randomizeChar = () => {
+        return (
+            Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)
+        );
+    }
+    generateID = () => {
+        return (
+            this.randomizeChar() + '-' + this.randomizeChar() + '-' + this.randomizeChar() + '-' + this.randomizeChar()
+        );
     }
 
     //TODO Hiển thị/Ẩn form thêm lớp mới
@@ -68,6 +123,15 @@ class Members extends Component {
     }
 
     render() {
+        var {isDisplayForm} = this.state;
+        var elmMembForm = isDisplayForm 
+            ? <MemberForm 
+                onSubmitMemb={this.onSubmitMemb}
+                onCloseForm={this.onCloseForm}/> 
+            : '';
+
+
+
         return (
             <div>
                 {/* nav */}
@@ -147,18 +211,17 @@ class Members extends Component {
                     {/* Thêm công việc */}
                     <AddMember onToggleForm={this.onToggleForm} />
 
-                    {/* class form */}
-                    {/* {elmClassForm} */}
-
-
+                    {/* Member form */}
+                    {elmMembForm}
 
                     {/* data tables */}
                     <div className="">
                         <MemberList
-                            member={this.props.member}
+                            memberList={this.props.formal_name}
+                            onDelete={this.onDelete}
                             onFilter={this.onFilter}
                         />
-                        {/* onDelete={this.onDelete}
+                        {/* 
                             onEdit={this.onEdit}
                             onFilter={this.onFilter} */}
                     </div>

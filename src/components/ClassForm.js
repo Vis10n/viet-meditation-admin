@@ -19,6 +19,7 @@ class ClassForm extends Component {
             time_end: '',
             location: 'Đền Voi Phục, Thụy Khuê, Tây Hồ, Hà Nội',
             pic: '',
+            formal_name: [],
         }
     }
 
@@ -39,7 +40,8 @@ class ClassForm extends Component {
                 time_end: this.props.clazz.time_end,
                 location: this.props.clazz.location,
                 pic: this.props.clazz.pic,
-                more_infor: this.props.clazz.more_infor
+                more_infor: this.props.clazz.more_infor,
+                formal_name: this.props.clazz.formal_name
             });
         }
     }
@@ -60,7 +62,8 @@ class ClassForm extends Component {
                 time_end: nextProps.clazz.time_end,
                 location: nextProps.clazz.location,
                 pic: nextProps.clazz.pic,
-                more_infor: nextProps.clazz.more_infor
+                more_infor: nextProps.clazz.more_infor,
+                formal_name: nextProps.clazz.formal_name
             });
             //trường hợp sửa -> thêm
         } else if (nextProps && nextProps.clazz === null) {
@@ -77,7 +80,8 @@ class ClassForm extends Component {
                 time_end: '',
                 location: 'Đền Voi Phục, Thụy Khuê, Tây Hồ, Hà Nội',
                 pic: '',
-                more_infor: ''
+                more_infor: '',
+                formal_name: []
             });
         }
     }
@@ -107,6 +111,13 @@ class ClassForm extends Component {
         this.onCloseForm();
     }
 
+    onSubmitMemb = (data) => {
+        this.setState({
+            formal_name: data
+        });
+        this.props.onSubmit(this.state);
+    }
+
     //TODO Bắt sự kiện đóng form
     onCloseForm = () => {
         this.props.onCloseForm();
@@ -133,7 +144,7 @@ class ClassForm extends Component {
     //TODO render
     render() {
         return (
-            <div className="panel panel-primary col-xs-13 col-sm-13 col-md-13 col-lg-13">
+            <div className="panel panel-info col-xs-13 col-sm-13 col-md-13 col-lg-13">
                 <div className="panel-heading">
                     <h3 className="panel-title">
                         {this.state.id !== '' ? 'Chỉnh sửa & Cập nhật lớp' : 'Thêm lớp học mới'}
@@ -313,7 +324,10 @@ class ClassForm extends Component {
 
                             {/* Danh sách học viên */}
                             {this.state.id !== '' ? 
-                                <ShowMembers    clazz={this.props.clazz}
+                                <ShowMembers
+                                    clzName={this.props.clazz.name}    
+                                    formal_name={this.props.clazz.formal_name}
+                                    onSubmitMemb={this.onSubmitMemb}
                                 /> : null}
                         </div>
 

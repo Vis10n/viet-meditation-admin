@@ -32,10 +32,10 @@ class MemberList extends Component {
     }
 
     render() {
-        var {member} = this.props; // var tasks = this.props.tasks
-        console.log(member);
+        var {memberList} = this.props; // var tasks = this.props.tasks
+        // console.log(memberList);
         var {filterName, filterBirth, filterAddress} = this.state;
-        var elmMember = member.map((member, index) => {
+        var elmMember = memberList.map((member, index) => {
             return <MemberItem 
                         key={member.id} 
                         index={index} 

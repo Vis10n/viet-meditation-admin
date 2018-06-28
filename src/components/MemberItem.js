@@ -2,15 +2,15 @@ import React, {Component} from 'react';
 
 class MemberItem extends Component {
     
-    //TODO truyền clazz.id về Component cha
-    //Xóa
-    onDelete = () => {
-        this.props.onDelete(this.props.member.id)
-    }
-
     //Sửa
     onEdit = () => {
         this.props.onEdit(this.props.member.id)
+    }
+
+    //TODO truyền member.id về Component cha
+    //Xóa
+    onDelete = () => {
+        this.props.onDelete(this.props.member.id)
     }
 
     //Render function

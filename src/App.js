@@ -131,7 +131,7 @@ class App extends Component {
         this.setState({
             clazzEditing: clazzEditing
         });
-        console.log(clazzEditing);
+        // console.log(clazzEditing);
         //Hiển thị form thông tin của bản ghi người dùng chọn
         this.onShowForm();
     }
@@ -164,13 +164,12 @@ class App extends Component {
 
     //Submit data và lưu CSDL
     onSubmit = (data) => {
-        console.log(data);
+        // console.log(data);
         var { clazz } = this.state;
 
         //Kiểm tra trạng thái (Thêm hay sửa?)
         if (data.id === '') {                   //Thêm bản ghi mới
             data.id = this.generateID();
-            data.formal_name = [];
             clazz.push(data);
         } else {                                //Cập nhật bản ghi sẵn có
             var index = this.findIndex(data.id);

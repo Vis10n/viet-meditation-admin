@@ -4,11 +4,16 @@ import Members from './Members';
 
 class ShowMembers extends Component {
     
+    onSubmitMemb = (data) => {
+        this.props.onSubmitMemb(data);
+    }
+
     onShowMembers = () => {
         ReactDOM.render(
-            <Members 
-                clzName={this.props.clazz.name}
-                member={this.props.clazz.formal_name}/>,
+            <Members
+                clzName={this.props.clzName} 
+                formal_name={this.props.formal_name}
+                onSubmitMemb={this.onSubmitMemb}/>,
             document.getElementById("root")
         );
     }
