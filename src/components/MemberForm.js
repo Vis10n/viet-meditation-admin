@@ -72,7 +72,7 @@ class MemberForm extends Component {
                 address: nextProps.member.address
             });
             //trường hợp sửa -> thêm
-        } else if (nextProps && nextProps.clazz === null) {
+        } else if (nextProps && nextProps.member === null) {
             console.log()
             this.setState({
                 id: '',
@@ -87,7 +87,9 @@ class MemberForm extends Component {
         return (
             <div>
                 <div className="panel panel-info">
-                    <div className="panel-heading">Thêm học viên</div>
+                    <div className="panel-heading">
+                    {this.state.id !== '' ? 'Xem & Sửa thông tin học viên' : 'Thêm học viên'}
+                    </div>
                     <div className="panel-body">
                         <form onSubmit={this.onSubmit}>
                             <div className="col-md-6">

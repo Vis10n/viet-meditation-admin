@@ -26,7 +26,7 @@ class ClassForm extends Component {
     //CWM
     //TODO Lấy thông tin của bản ghi mà người dùng click vào.
     componentWillMount() {
-        console.log("CWM");
+        // console.log("CWM");
         if (this.props.clazz) {
             this.setState({
                 id: this.props.clazz.id,
@@ -147,7 +147,7 @@ class ClassForm extends Component {
             <div className="panel panel-info col-xs-13 col-sm-13 col-md-13 col-lg-13">
                 <div className="panel-heading">
                     <h3 className="panel-title">
-                        {this.state.id !== '' ? 'Chỉnh sửa & Cập nhật lớp' : 'Thêm lớp học mới'}
+                        {this.state.id !== '' ? 'Xem & Sửa thông tin lớp' : 'Thêm lớp học mới'}
                         &nbsp;
                     </h3>
                 </div>
