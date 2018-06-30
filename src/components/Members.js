@@ -29,6 +29,23 @@ class Members extends Component {
         return result;
     }
 
+    //TODO Sửa thông tin học viên
+    onEdit = (id) => {
+
+        // Lấy data từ state
+        var { formal_name } = this.state;
+
+        //Tìm vị trí và bắt thông tin bản ghi người dùng chọn
+        var index = this.findIndex(id);
+        var memberEditing = formal_name[index];
+        this.setState({
+            memberEditing: memberEditing
+        });
+        //Hiển thị form thông tin của bản ghi người dùng chọn
+        this.onShowForm();
+    }
+
+    //TODO Xóa học viên
     onDelete = (id) => {
         var {formal_name} = this.state;
         var index = this.findIndex(id);
@@ -49,12 +66,15 @@ class Members extends Component {
         })
     }
     
-    
+    //TODO Submit thông tin học viên
     onSubmitMemb = (data) => {
         var {formal_name} = this.state;
         if (data.id === '') {
             data.id = this.generateID();
             formal_name.push(data);
+        } else {
+            var index = this.findIndex(data.id);
+            formal_name[index] = data;
         }
         this.props.onSubmitMemb(formal_name);
     }
@@ -115,7 +135,6 @@ class Members extends Component {
 
     //TODO Đăng xuất (temp)
     logOut = () => {
-        console.log("I'm bug :D !! Hello madafaka!!! :D");
         ReactDOM.render(
             <Login />,
             document.getElementById("root")
@@ -123,9 +142,10 @@ class Members extends Component {
     }
 
     render() {
-        var {isDisplayForm} = this.state;
+        var {isDisplayForm, memberEditing} = this.state;
         var elmMembForm = isDisplayForm 
             ? <MemberForm 
+                member={memberEditing}
                 onSubmitMemb={this.onSubmitMemb}
                 onCloseForm={this.onCloseForm}/> 
             : '';
@@ -219,10 +239,11 @@ class Members extends Component {
                         <MemberList
                             memberList={this.props.formal_name}
                             onDelete={this.onDelete}
+                            onEdit={this.onEdit}
                             onFilter={this.onFilter}
                         />
                         {/* 
-                            onEdit={this.onEdit}
+                            
                             onFilter={this.onFilter} */}
                     </div>
 

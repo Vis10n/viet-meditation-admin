@@ -48,6 +48,41 @@ class MemberForm extends Component {
         });
     }
 
+    
+    componentWillMount() {
+        console.log("CWM");
+        if (this.props.member) {
+            this.setState({
+                id: this.props.member.id,
+                fullname: this.props.member.fullname,
+                birth: this.props.member.birth,
+                address: this.props.member.address
+            });
+        }
+    }
+    
+     //Update thông tin form 
+     componentWillReceiveProps(nextProps) {
+        //trường họp sửa
+        if (nextProps && nextProps.member) {
+            this.setState({
+                id: nextProps.member.id,
+                fullname: nextProps.member.fullname,
+                birth: nextProps.member.birth,
+                address: nextProps.member.address
+            });
+            //trường hợp sửa -> thêm
+        } else if (nextProps && nextProps.clazz === null) {
+            console.log()
+            this.setState({
+                id: '',
+                fullname: '',
+                birth: '',
+                address: ''
+            });
+        }
+    }
+
     render() {
         return (
             <div>
